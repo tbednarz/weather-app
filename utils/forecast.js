@@ -8,17 +8,17 @@ const forecast = (latitude, longitude, callback) => {
    (longitude) +
     "?units=us";
 
-  request({ url: url, json: true }, (error, response) => {
+  request({ url, json:true }, (error, {body}) => {
     if (error) {
       callback("Unable to connect to location services");
-    } else if (response.body.error) {
+    } else if (body.error) {
       callback("unable to find location");
     } else {
       callback(undefined, {
-        summary: response.body.daily.data[0].summary,
-        temperature: response.body.currently.temperature,
-        precipChance: response.body.currently.precipProbability + "%",
-        place: response.body.timezone 
+        summary: body.daily.data[0].summary,
+        temperature: body.currently.temperature,
+        precipChance: body.currently.precipProbability + "%",
+        place: body.timezone 
         
       });
     }
